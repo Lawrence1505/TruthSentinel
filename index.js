@@ -33,7 +33,7 @@ app.use(express.static(__dirname));
 const firestore = new Firestore();
 const vertex_ai = new VertexAI({ project: "qodo-guardian", location: "us-central1" });
 const model = vertex_ai.getGenerativeModel({
-    model: "gemini-2.5-pro",
+    model: "gemini-2.5-pro", // Using the stable, globally-available model to avoid errors
 });
 const storage = new Storage();
 const bucket = storage.bucket("theog");
@@ -170,29 +170,30 @@ app.post("/api/analyze/video", upload.single("file"), async (req, res) => {
     }
 });
 
-
-// --- CHATBOT ROUTE ---
 app.post("/api/chat", async (req, res) => {
     try {
-        const { messages, system } = req.body || {};
+        const { messages } = req.body;
         if (!Array.isArray(messages) || messages.length === 0) {
             return res.status(400).json({ success: false, msg: "messages array is required" });
         }
-        const defaultSystem = "You are Furina, a helpful, friendly, and concise assistant. Answer as a general-purpose chatbot. Avoid classification or moderation framing unless explicitly asked.";
-        const systemText = (typeof system === 'string' && system.trim()) ? system.trim() : defaultSystem;
-        const contents = [
-            { role: 'user', parts: [{ text: systemText }] },
-            ...messages.map(m => ({
-                role: m.role === 'assistant' ? 'model' : 'user',
-                parts: [{ text: String(m.content || '') }]
-            }))
-        ];
-        const request = { contents };
-        const result = await model.generateContent(request);
+        const history = messages.map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: String(m.content || '') }]
+        }));
+        const chat = model.startChat({
+            history: history.slice(0, -1),
+        });
+        const lastMessage = messages[messages.length - 1].content;
+        const result = await chat.sendMessage(lastMessage);
         const response = result.response;
-        const reply = response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        if (!reply) {
-            return res.status(500).json({ success: false, msg: "Empty response from model" });
+        const reply = response.candidates[0].content.parts[0].text;
+        if (reply) {
+            const fullConversation = [...messages, { role: 'assistant', content: reply }];
+            await firestore.collection("chats").add({
+                firstMessage: messages[0]?.content || 'Chat',
+                lastMessageTimestamp: new Date(),
+                conversation: fullConversation
+            });
         }
         return res.json({ success: true, reply });
     } catch (error) {
@@ -202,8 +203,7 @@ app.post("/api/chat", async (req, res) => {
 });
 
 
-// --- CATCH-ALL ROUTE (THE FINAL FIX) ---
-// This uses app.use() to act as a fallback and will not crash.
+// --- CATCH-ALL ROUTE ---
 app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
