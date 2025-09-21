@@ -1,239 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qodo Guardian Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qodo Guardian Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app-shell">
+<div id="app-shell">
     <aside class="sidebar">
-      <div class="brand">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#22d3ee"/>
-              <stop offset="100%" stop-color="#a78bfa"/>
-            </linearGradient>
-          </defs>
-          <path d="M12 2l7 4v12l-7 4-7-4V6l7-4z" stroke="url(#grad)" stroke-width="2" fill="none"/>
-          <circle cx="12" cy="12" r="3" fill="url(#grad)"/>
-        </svg>
-        <span class="brand-name">Qodo Guardian</span>
-      </div>
-      <nav class="nav">
-        <a href="#/dashboard" class="nav-item" data-route="dashboard">
-          <span class="icon">🏠</span> <span>Dashboard</span>
-        </a>
-        <div class="nav-section">Account</div>
-        <a href="#/login" class="nav-item" data-route="login">
-          <span class="icon">🔐</span> <span>Sign In / Up</span>
-        </a>
-        <a href="#/profile" class="nav-item" data-route="profile">
-          <span class="icon">👤</span> <span>Profile</span>
-        </a>
-        <div class="nav-section">Explore</div>
-        <a href="#/history" class="nav-item" data-route="history">
-          <span class="icon">🕓</span> <span>History</span>
-        </a>
-        <a href="#/help" class="nav-item" data-route="help">
-          <span class="icon">❓</span> <span>Help</span>
-        </a>
-        <a href="#/about" class="nav-item" data-route="about">
-          <span class="icon">ℹ️</span> <span>About</span>
-        </a>
-        <button id="signOutBtn" class="nav-item danger" style="display:none">
-          <span class="icon">🚪</span> <span>Sign Out</span>
-        </button>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="status-dot online"></div>
-        <div class="status-text">Secure • Offline Ready</div>
-      </div>
+        <div class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#22d3ee"/>
+                        <stop offset="100%" stop-color="#a78bfa"/>
+                    </linearGradient>
+                </defs>
+                <path d="M12 2l7 4v12l-7 4-7-4V6l7-4z" stroke="url(#grad)" stroke-width="2" fill="none"/>
+                <circle cx="12" cy="12" r="3" fill="url(#grad)"/>
+            </svg>
+            <span class="brand-name">TruthSentinel</span>
+        </div>
+        <nav class="nav">
+            <a href="#/dashboard" class="nav-item" data-route="dashboard">
+                <span class="icon">🏠</span> <span>Dashboard</span>
+            </a>
+            <div class="nav-section">Account</div>
+            <a href="#/login" class="nav-item" data-route="login">
+                <span class="icon">🔐</span> <span>Sign In / Up</span>
+            </a>
+            <a href="#/profile" class="nav-item" data-route="profile">
+                <span class="icon">👤</span> <span>Profile</span>
+            </a>
+            <div class="nav-section">Explore</div>
+            <a href="#/history" class="nav-item" data-route="history">
+                <span class="icon">🕓</span> <span>History</span>
+            </a>
+            <a href="#/help" class="nav-item" data-route="help">
+                <span class="icon">❓</span> <span>Help</span>
+            </a>
+            <a href="#/about" class="nav-item" data-route="about">
+                <span class="icon">ℹ️</span> <span>About</span>
+            </a>
+            <div class="nav-section">Chatbots</div>
+            <a href="#/furina" class="nav-item" data-route="furina">
+                <span class="icon">💧</span> <span>Furina Chatbot</span>
+            </a>
+            <button id="signOutBtn" class="nav-item danger" style="display:none">
+                <span class="icon">🚪</span> <span>Sign Out</span>
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="status-dot online"></div>
+            <div class="status-text">Secure • Offline Ready</div>
+        </div>
     </aside>
 
     <div class="main">
-      <header class="topbar">
-        <div class="topbar-left">
-          <button id="sidebarToggle" class="ghost-btn" title="Toggle menu">☰</button>
-          <div class="page-title" id="pageTitle">Dashboard</div>
-        </div>
-        <div class="topbar-right">
-          <input id="globalSearch" class="search" placeholder="Search history..." />
-          <div class="user-chip" id="userChip" title="Profile">
-            <span class="avatar" id="userAvatar">Q</span>
-            <span class="name" id="userName">Guest</span>
-          </div>
-        </div>
-      </header>
-
-      <main id="app" class="content"></main>
-
-      <footer class="footer">
-        <span>© <span id="year"></span> Qodo Guardian</span>
-        <span>Dark • Neon • Minimal</span>
-      </footer>
-    </div>
-  </div>
-
-  <!-- Views as templates -->
-  <template id="view-dashboard">
-    <section class="grid">
-      <div class="card span-2">
-        <h2>Fake Message Detection</h2>
-        <p class="muted">Analyze text to flag suspicious phrases, claims, and patterns.</p>
-        <textarea id="msgInput" class="input" rows="6" placeholder="Paste or type a message to analyze..."></textarea>
-        <div class="actions">
-          <button id="analyzeMsgBtn" class="btn primary">Analyze Message</button>
-          <button id="clearMsgBtn" class="btn ghost">Clear</button>
-        </div>
-        <div class="result" id="msgResult"></div>
-        <div class="heatmap" id="msgHeatmap" aria-label="Message heatmap"></div>
-      </div>
-
-      <div class="card">
-        <h2>Fake Image Detection</h2>
-        <p class="muted">Run ELA-based checks and signal inconsistent regions.</p>
-        <input type="file" id="imgInput" accept="image/*" class="input file" />
-        <div class="media-wrap">
-          <canvas id="imgCanvas" class="media"></canvas>
-          <canvas id="imgOverlay" class="overlay"></canvas>
-        </div>
-        <div class="actions">
-          <button id="analyzeImgBtn" class="btn primary" disabled>Analyze Image</button>
-          <button id="clearImgBtn" class="btn ghost" disabled>Clear</button>
-        </div>
-        <div class="result" id="imgResult"></div>
-      </div>
-
-      <div class="card">
-        <h2>Fake Video Detection</h2>
-        <p class="muted">Scan frames for artifacts and inconsistencies.</p>
-        <input type="file" id="vidInput" accept="video/*" class="input file" />
-        <div class="media-wrap">
-          <video id="video" class="media" controls></video>
-          <canvas id="vidOverlay" class="overlay"></canvas>
-        </div>
-        <div class="actions">
-          <button id="analyzeVidBtn" class="btn primary" disabled>Analyze Video</button>
-          <button id="clearVidBtn" class="btn ghost" disabled>Clear</button>
-        </div>
-        <div class="result" id="vidResult"></div>
-      </div>
-
-      <div class="card span-2">
-        <h2>Global Heatmap</h2>
-        <p class="muted">Aggregate view of recent detections by severity and type.</p>
-        <canvas id="globalHeatmap" height="220"></canvas>
-        <div id="globalSummary" class="muted small"></div>
-      </div>
-    </section>
-  </template>
-
-  <template id="view-login">
-    <section class="auth">
-      <div class="auth-card">
-        <div class="tabs">
-          <button class="tab active" data-tab="signin">Sign In</button>
-          <button class="tab" data-tab="signup">Sign Up</button>
-        </div>
-        <div class="tab-content show" id="tab-signin">
-          <label>Email</label>
-          <input id="signinEmail" type="email" class="input" placeholder="you@example.com" />
-          <label>Password</label>
-          <input id="signinPassword" type="password" class="input" placeholder="••••••••" />
-          <button id="signinBtn" class="btn primary full">Sign In</button>
-        </div>
-        <div class="tab-content" id="tab-signup">
-          <label>Name</label>
-          <input id="signupName" type="text" class="input" placeholder="Jane Doe" />
-          <label>Email</label>
-          <input id="signupEmail" type="email" class="input" placeholder="you@example.com" />
-          <label>Password</label>
-          <input id="signupPassword" type="password" class="input" placeholder="Create a password" />
-          <button id="signupBtn" class="btn secondary full">Create Account</button>
-        </div>
-      </div>
-    </section>
-  </template>
-
-  <template id="view-profile">
-    <section class="profile">
-      <div class="card">
-        <h2>Profile</h2>
-        <div class="profile-grid">
-          <div class="avatar-xl" id="profileAvatar">Q</div>
-          <div class="fields">
-            <label>Name</label>
-            <input id="profileName" class="input" type="text" />
-            <label>Email</label>
-            <input id="profileEmail" class="input" type="email" disabled />
-            <label>Bio</label>
-            <textarea id="profileBio" class="input" rows="4" placeholder="Tell us something about you..."></textarea>
-            <div class="actions">
-              <button id="saveProfileBtn" class="btn primary">Save</button>
-              <button id="resetProfileBtn" class="btn ghost">Reset</button>
+        <header class="topbar">
+            <div class="topbar-left">
+                <button id="sidebarToggle" class="ghost-btn" title="Toggle menu">☰</button>
+                <div class="page-title" id="pageTitle">Dashboard</div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </template>
+            <div class="topbar-right">
+                <input id="globalSearch" class="search" placeholder="Search history..." />
+                <div class="user-chip" id="userChip" title="Profile">
+                    <span class="avatar" id="userAvatar">Q</span>
+                    <span class="name" id="userName">Guest</span>
+                </div>
+            </div>
+        </header>
 
-  <template id="view-history">
+        <main id="app" class="content"></main>
+
+        <footer class="footer">
+            <span>© <span id="year"></span> TruthSentinel</span>
+            <span>Dark • Neon • Minimal</span>
+        </footer>
+    </div>
+</div>
+
+<!-- Views as templates -->
+<template id="view-dashboard">
+    <section class="grid">
+        <div class="card span-2">
+            <h2>Fake Message Detection</h2>
+            <p class="muted">Analyze text to flag suspicious phrases, claims, and patterns.</p>
+                        <textarea id="msgInput" class="input" rows="6" placeholder="Paste or type a message to analyze..."></textarea>
+            <div class="actions">
+                <button id="analyzeMsgBtn" class="btn primary">Analyze Message</button>
+                <button id="clearMsgBtn" class="btn ghost">Clear</button>
+            </div>
+            <div class="result" id="msgResult"></div>
+            <div class="heatmap" id="msgHeatmap" aria-label="Message heatmap"></div>
+        </div>
+
+        <div class="card">
+            <h2>Fake Image Detection</h2>
+            <p class="muted">Run ELA-based checks and signal inconsistent regions.</p>
+            <input type="file" id="imgInput" accept="image/*" class="input file" />
+            <div class="media-wrap">
+                <canvas id="imgCanvas" class="media"></canvas>
+                <canvas id="imgOverlay" class="overlay"></canvas>
+            </div>
+            <div class="actions">
+                <button id="analyzeImgBtn" class="btn primary" disabled>Analyze Image</button>
+                <button id="clearImgBtn" class="btn ghost" disabled>Clear</button>
+            </div>
+            <div class="result" id="imgResult"></div>
+        </div>
+
+        <div class="card">
+            <h2>Fake Video Detection</h2>
+            <p class="muted">Scan frames for artifacts and inconsistencies.</p>
+            <input type="file" id="vidInput" accept="video/*" class="input file" />
+            <div class="media-wrap">
+                <video id="video" class="media" controls></video>
+                <canvas id="vidOverlay" class="overlay"></canvas>
+            </div>
+            <div class="actions">
+                <button id="analyzeVidBtn" class="btn primary" disabled>Analyze Video</button>
+                <button id="clearVidBtn" class="btn ghost" disabled>Clear</button>
+            </div>
+            <div class="result" id="vidResult"></div>
+        </div>
+
+        <div class="card span-2">
+            <h2>Global Heatmap</h2>
+            <p class="muted">Aggregate view of recent detections by severity and type.</p>
+            <canvas id="globalHeatmap" height="220"></canvas>
+            <div id="globalSummary" class="muted small"></div>
+        </div>
+    </section>
+</template>
+
+<template id="view-login">
+    <section class="auth">
+        <div class="auth-card">
+            <div class="tabs">
+                <button class="tab active" data-tab="signin">Sign In</button>
+                <button class="tab" data-tab="signup">Sign Up</button>
+            </div>
+            <div class="tab-content show" id="tab-signin">
+                <label>Email</label>
+                <input id="signinEmail" type="email" class="input" placeholder="you@example.com" />
+                <label>Password</label>
+                <input id="signinPassword" type="password" class="input" placeholder="••••••••" />
+                <button id="signinBtn" class="btn primary full">Sign In</button>
+            </div>
+            <div class="tab-content" id="tab-signup">
+                <label>Name</label>
+                <input id="signupName" type="text" class="input" placeholder="Jane Doe" />
+                <label>Email</label>
+                <input id="signupEmail" type="email" class="input" placeholder="you@example.com" />
+                <label>Password</label>
+                <input id="signupPassword" type="password" class="input" placeholder="Create a password" />
+                <button id="signupBtn" class="btn secondary full">Create Account</button>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="view-profile">
+    <section class="profile">
+        <div class="card">
+            <h2>Profile</h2>
+            <div class="profile-grid">
+                <div class="avatar-xl" id="profileAvatar">Q</div>
+                <div class="fields">
+                    <label>Name</label>
+                    <input id="profileName" class="input" type="text" />
+                    <label>Email</label>
+                    <input id="profileEmail" class="input" type="email" disabled />
+                    <label>Bio</label>
+                    <textarea id="profileBio" class="input" rows="4" placeholder="Tell us something about you..."></textarea>
+                    <div class="actions">
+                        <button id="saveProfileBtn" class="btn primary">Save</button>
+                        <button id="resetProfileBtn" class="btn ghost">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+<template id="view-history">
     <section class="history">
-      <div class="card">
-        <h2>Analysis History</h2>
-        <div class="muted small">Stored locally on your device.</div>
-        <div id="historyList" class="history-list"></div>
-        <div class="actions">
-          <button id="exportHistoryBtn" class="btn secondary">Export</button>
-          <button id="clearHistoryBtn" class="btn danger">Clear All</button>
+        <div class="card">
+            <h2>Analysis History</h2>
+            <div class="muted small">Stored locally on your device.</div>
+            <div id="historyList" class="history-list"></div>
+            <div class="actions">
+                <button id="exportHistoryBtn" class="btn secondary">Export</button>
+                <button id="clearHistoryBtn" class="btn danger">Clear All</button>
+            </div>
         </div>
-      </div>
     </section>
-  </template>
+</template>
 
-  <template id="view-help">
+<template id="view-help">
     <section class="help">
-      <div class="card">
-        <h2>Help & FAQ</h2>
-        <details>
-          <summary>How does Fake Message detection work?</summary>
-          <p>We use on-device heuristics to flag cues like clickbait, excessive punctuation, misleading numbers, and suspicious links. No data leaves your browser.</p>
-        </details>
-        <details>
-          <summary>How does Fake Image detection work?</summary>
-          <p>We approximate Error Level Analysis (ELA) by comparing a compressed version against the original to highlight edited areas.</p>
-        </details>
-        <details>
-          <summary>Can I use this offline?</summary>
-          <p>Yes. All analysis runs locally in your browser without servers.</p>
-        </details>
-      </div>
+        <div class="card">
+            <h2>Help & FAQ</h2>
+            <details>
+                <summary>How does Fake Message detection work?</summary>
+                <p>We use on-device heuristics to flag cues like clickbait, excessive punctuation, misleading numbers, and suspicious links. No data leaves your browser.</p>
+            </details>
+            <details>
+                <summary>How does Fake Image detection work?</summary>
+                <p>We approximate Error Level Analysis (ELA) by comparing a compressed version against the original to highlight edited areas.</p>
+            </details>
+            <details>
+                <summary>Can I use this offline?</summary>
+                <p>Yes. All analysis runs locally in your browser without servers.</p>
+            </details>
+        </div>
     </section>
-  </template>
+</template>
 
-  <template id="view-about">
+<template id="view-about">
     <section class="about">
-      <div class="card">
-        <h2>About Qodo Guardian</h2>
-        <p>Qodo-inspired, neon-dark dashboard for misinformation triage. This is a client-side prototype demonstrating UX and on-device signal analysis.</p>
-        <ul>
-          <li>Sign In / Sign Up</li>
-          <li>Profile management</li>
-          <li>Fake Message, Image, and Video checks</li>
-          <li>Heatmaps per modality + global summary</li>
-          <li>Local history</li>
-        </ul>
-      </div>
+        <div class="card">
+            <h2>About TruthSentinel</h2>
+            <p>Qodo-inspired, neon-dark dashboard for misinformation triage. This is a client-side prototype demonstrating UX and on-device signal analysis.</p>
+            <ul>
+                <li>Sign In / Sign Up</li>
+                <li>Profile management</li>
+                <li>Fake Message, Image, and Video checks</li>
+                <li>Heatmaps per modality + global summary</li>
+                <li>Local history</li>
+            </ul>
+        </div>
     </section>
-  </template>
+</template>
 
-  <script src="app.js"></script>
+<template id="view-furina">
+    <section class="furina">
+        <div class="card">
+            <h2>Furina Chatbot</h2>
+            <p class="muted">Ask Furina to analyze or comment on a message.</p>
+            <textarea id="furinaInput" class="input" rows="6" placeholder="Type your message for Furina..."></textarea>
+            <div class="actions">
+                <button id="furinaAskBtn" class="btn primary">Ask Furina</button>
+                <button id="furinaClearBtn" class="btn ghost">Clear</button>
+            </div>
+            <div class="result" id="furinaResult"></div>
+        </div>
+    </section>
+</template>
+
+<script src="app.js"></script>
 </body>
 </html>

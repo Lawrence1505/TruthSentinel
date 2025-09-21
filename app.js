@@ -13,7 +13,8 @@
         profile: renderProfile,
         history: renderHistory,
         help: renderHelp,
-        about: renderAbout
+        about: renderAbout,
+        furina: renderFurina
     };
 
     const state = {
@@ -93,7 +94,7 @@
     }
 
     function titleFromPath(p) {
-        return ({ dashboard: 'Dashboard', login: 'Sign In / Up', profile: 'Profile', history: 'History', help: 'Help', about: 'About' })[p] || 'Dashboard';
+        return ({ dashboard: 'Dashboard', login: 'Sign In / Up', profile: 'Profile', history: 'History', help: 'Help', about: 'About', furina: 'Furina Chatbot' })[p] || 'Dashboard';
     }
     function highlightNav(path) {
         $$('.nav-item').forEach(el => el.classList.remove('active'));
@@ -293,6 +294,71 @@
     function renderAbout() {
         const tpl = byId('view-about');
         $('#app').appendChild(tpl.content.cloneNode(true));
+    }
+
+    function renderFurina() {
+        const tpl = byId('view-furina');
+        $('#app').appendChild(tpl.content.cloneNode(true));
+
+        const inputEl = byId('furinaInput');
+        const sendBtn = byId('furinaAskBtn');
+        const clearBtn = byId('furinaClearBtn');
+        const resultEl = byId('furinaResult');
+
+        const chat = [];
+
+        function drawChat() {
+            resultEl.innerHTML = chat.map(m => `
+                <div class="chat-row ${m.role}">
+                    <div class="bubble">${escapeHtml(m.content)}</div>
+                </div>
+            `).join('');
+            resultEl.scrollTop = resultEl.scrollHeight;
+        }
+
+        async function send() {
+            const text = inputEl.value.trim();
+            if (!text) return toast('Please enter a message.');
+            chat.push({ role: 'user', content: text });
+            drawChat();
+            inputEl.value = '';
+            sendBtn.disabled = true;
+            try {
+                const response = await fetch(`${API_BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        messages: chat,
+                        system: 'You are Furina, a helpful, friendly, and concise assistant. Introduce yourself as Furina when greeted.'
+                    })
+                });
+                const data = await response.json();
+                if (!data.success) throw new Error(data.msg || 'Chat failed');
+                chat.push({ role: 'assistant', content: String(data.reply || '') });
+                drawChat();
+            } catch (err) {
+                toast(`Error: ${err.message}`);
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        sendBtn.addEventListener('click', send);
+        inputEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                send();
+            }
+        });
+        clearBtn.addEventListener('click', () => {
+            chat.length = 0;
+            drawChat();
+            inputEl.value = '';
+        });
+
+        // Optional: greet on first load (commented out to keep behavior minimal)
+        // chat.push({ role: 'assistant', content: 'Hello! I am Furina. How can I help you today?' });
+        // drawChat();
     }
 
     // Helper functions
